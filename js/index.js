@@ -6,32 +6,45 @@ const DOM = {
 const textos = {
     todosLosTextos: document.querySelectorAll(".texto"),
     listaDeLosTextos: [],
-    listaDeLosTextosNoche: ["Noche 1", "Noche 2"]
 };
 const imagenes = {
     imagenArticleNoche: document.querySelectorAll(".ocultarImagen")
+};
+const config = {
+    clases: {
+        modoOscuroBody: "modoOscuroBody"
+    },
+    opacidad: {
+        visible: 1,
+        oculto: 0
+    },
+    textos: {
+        noche: ["Noche 1 nueva", "Noche 2 nueva"],
+        dia: []
+    }
 };
 
 textos.todosLosTextos.forEach(X => {
     textos.listaDeLosTextos.push(X.textContent)
 });
 
-let estadoCaja = false;
-let modoOscuro = DOM.body.classList.contains("modoOscuroBody");
+config.textos.dia = textos.listaDeLosTextos;
+
+let modoOscuro = DOM.body.classList.contains(config.clases.modoOscuroBody);
 
 function nocheBody(){
-    DOM.body.classList.toggle("modoOscuroBody");
+    DOM.body.classList.toggle(config.clases.modoOscuroBody);
 }
 function nocheImagenes() {
     imagenes.imagenArticleNoche.forEach(x => {
-        x.style.opacity = modoOscuro ? 0 : 1;
+        x.style.opacity = modoOscuro ? config.opacidad.oculto : config.opacidad.visible;
     })
 }
 function nocheTexto() {
     textos.todosLosTextos.forEach((x, y) => {
         x.textContent = modoOscuro
-        ? textos.listaDeLosTextos[y]
-        : textos.listaDeLosTextosNoche[y];
+        ? config.textos.dia[y]
+        : config.textos.noche[y];
     })
 }
 
